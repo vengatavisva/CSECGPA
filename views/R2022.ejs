@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Semester</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: url('assets/body-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            background: url('assets/header-background.jpg') no-repeat center center/cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: black;
+        }
+        .logo img {
+            width: 60px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .title h1 {
+            font-size: 22px;
+            color: black;
+        }
+        .title h2 {
+            font-size: 18px;
+            opacity: 0.8;
+            color: black;
+        }
+        .regulation-box {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            position: relative;
+            top: -20px; /* Move it upwards */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .semester-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 10px;
+            color: black;
+        }
+        .next-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.566);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .next-button:hover {
+            background: gray;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/psna_logo.png" alt="PSNA College Logo">
+        </div>
+        <div class="title">
+            <h1>PSNA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
+            <h2>CSE CGPA CALCULATOR</h2>
+        </div>
+    </header>
+    
+    <main>
+        <div class="regulation-box">
+            <strong>Selected Regulation:</strong> <%= regulation %>
+        </div>
+        <div class="semester-container">
+            <h3>Select Semester</h3>
+            <form method="post" action="/<%= regulation %>/semester">
+                <select id="semester-select" name="Semester">
+                    <option value="">Select Semester</option>
+                    <option value="SEMESTER 1">Semester 1</option>
+                    <option value="SEMESTER 2">Semester 2</option>
+                    <option value="SEMESTER 3">Semester 3</option>
+                    <option value="SEMESTER 4">Semester 4</option>
+                    <option value="SEMESTER 5">Semester 5</option>
+                    <option value="SEMESTER 6">Semester 6</option>
+                    <option value="SEMESTER 7">Semester 7</option>
+                    <option value="SEMESTER 8">Semester 8</option>
+                </select>
+                <button class="next-button" id="next-btn">Next</button>
+            </form>
+        </div>
+    </main>
+    <script>
+        document.getElementById("next-btn").addEventListener("click", function(event) {
+            let semester = document.getElementById("semester-select").value;
+            if (!semester) {
+                event.preventDefault(); 
+                alert("Please select a semester before proceeding.");
+            }
+        });
+    </script>
+</body>
+</html>

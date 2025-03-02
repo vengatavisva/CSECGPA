@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSNA CSE CGPA Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: url('assets/body-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            background: url('assets/header-background.jpg') no-repeat center center/cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: black;
+        }
+        .logo img {
+            width: 60px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .title h1 {
+            font-size: 22px;
+            color: black;
+        }
+        .title h2 {
+            font-size: 18px;
+            opacity: 0.8;
+            color: black;
+        }
+        .cgpa-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background: rgba(194, 214, 227, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            margin-top: 100px;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            transition: 0.3s;
+            background: white;
+            color: black;
+        }
+        select:focus, input:focus {
+            border-color: #4c99ec;
+            box-shadow: 0px 0px 8px rgba(76, 153, 236, 0.6);
+            background: #f9f9ff;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4c99ec, #357ae8);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #357ae8, #2357a3);
+            transform: scale(1.05);
+        }
+        #cgpa-result {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 10px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .show-result {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/psna_logo.png" alt="PSNA College Logo">
+        </div>
+        <div class="title">
+            <h1>PSNA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
+            <h2>CSE CGPA CALCULATOR</h2>
+        </div>
+    </header>
+    <main>
+        <div class="cgpa-container">
+            <h3>📊 Calculate Your CGPA</h3>
+            <label for="semester-count">Select Number of Semesters:</label>
+            <select id="semester-count">
+                <option value="">Choose</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select>
+            <button id="next-btn">Next</button>
+            <div id="gpa-inputs"></div>
+            <button id="calculate-btn" style="display: none;">Calculate CGPA</button>
+            <h2 id="cgpa-result"></h2>
+        </div>
+    </main>
+    <script>
+        document.getElementById("next-btn").addEventListener("click", function() {
+            var semesterCount = document.getElementById("semester-count").value;
+            var gpaInputsDiv = document.getElementById("gpa-inputs");
+            gpaInputsDiv.innerHTML = ""; 
+            if (semesterCount === "") {
+                alert("Please select the number of semesters.");
+                return;
+            }
+            for (let i = 1; i <= semesterCount; i++) {
+                let inputContainer = document.createElement("div");
+                let label = document.createElement("label");
+                label.innerText = `Semester ${i} GPA:`;
+                let input = document.createElement("input");
+                input.type = "number";
+                input.min = "0";
+                input.max = "10";
+                input.step = "0.10";
+                input.placeholder = `Enter GPA for Semester ${i}`;
+                input.classList.add("gpa-input");
+                inputContainer.appendChild(label);
+                inputContainer.appendChild(input);
+                gpaInputsDiv.appendChild(inputContainer);
+            }
+            document.getElementById("calculate-btn").style.display = "block";
+        });
+        document.getElementById("calculate-btn").addEventListener("click", function() {
+            var gpaInputs = document.querySelectorAll(".gpa-input");
+            var totalGPA = 0, count = 0;
+            for (let input of gpaInputs) {
+                var gpaValue = parseFloat(input.value);
+                if (isNaN(gpaValue) || gpaValue < 0 || gpaValue > 10) {
+                    alert("Please enter valid GPA values between 0 and 10.");
+                    return;
+                }
+                totalGPA += gpaValue;
+                count++;
+            }
+            if (count > 0) {
+                var cgpa = (totalGPA / count).toFixed(2);
+                var resultElement = document.getElementById("cgpa-result");
+                resultElement.innerText = `🎉Overall CGPA = ${cgpa}`;
+                resultElement.classList.add("show-result");
+            }
+        });
+    </script>
+</body>
+</html>

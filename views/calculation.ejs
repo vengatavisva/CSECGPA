@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate GPA</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: url('/assets/body-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            background: url('/assets/header-background.jpg') no-repeat center center/cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: black;
+        }
+        .logo img {
+            width: 60px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .title h1 {
+            font-size: 22px;
+            color: black;
+        }
+        .title h2 {
+            font-size: 18px;
+            opacity: 0.8;
+            color: black;
+        }
+        .container {
+            background: rgba(225, 237, 246, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            margin-top: 100px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .semester-box {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        th:nth-child(1), td:nth-child(1) {
+            width: 20%;
+        }
+        th:nth-child(2), td:nth-child(2) {
+            width: 50%;
+        }
+        th:nth-child(3), td:nth-child(3) {
+            width: 30%;
+        }
+        .calculate-button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .calculate-button:hover {
+            background: gray;
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="/assets/psna_logo.png" alt="PSNA College Logo">
+        </div>
+        <div class="title">
+            <h1>PSNA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
+            <h2>CSE CGPA CALCULATOR</h2>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="semester-box">
+                Selected Semester: <%= semester %>
+            </div>
+            <div class="table-container">
+                <table id="gradeTable">
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Grade</th>
+                    </tr>
+                    <% for(let i = 0; i < 6; i++) { %>
+                    <tr>
+                        <td>xxxxx</td>
+                        <td>xxxxxxxx</td>
+                        <td>
+                            <select name="grade<%= i %>" class="grade-select">
+                                <option value="">Select</option>
+                                <option value="O">O</option>
+                                <option value="A+">A+</option>
+                                <option value="A">A</option>
+                                <option value="B+">B+</option>
+                                <option value="B">B</option>
+                                <option value="U">U</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <% } %>
+                </table>
+            </div>
+            <button class="calculate-button" onclick="validateAndCalculate()">Calculate</button>
+            <div id="result"></div>
+        </div>
+    </main>
+
+    <script>
+        function validateAndCalculate() {
+            let grades = document.querySelectorAll('.grade-select');
+            let allFilled = true;
+
+            grades.forEach(grade => {
+                if (grade.value === "") {
+                    allFilled = false;
+                }
+            });
+
+            if (!allFilled) {
+                alert("Please fill in all the grades before calculating.");
+                return;
+            }
+
+            
+            document.getElementById("result").innerText = `Your GPA = 10`;
+        }
+
+            </script>
+</body>
+</html>

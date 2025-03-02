@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSNA CSE CGPA Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: url('assets/body-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            background: url('assets/header-background.jpg') no-repeat center center/cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: black;
+        }
+        .logo img {
+            width: 60px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .title h1 {
+            font-size: 22px;
+            color: black;
+        }
+        .title h2 {
+            font-size: 18px;
+            opacity: 0.8;
+            color: black;
+        }
+        .calculator-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 80px;
+        }
+        .calculator-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            width: 250px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            color: black;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .calculator-box:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+        select {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/psna_logo.png" alt="PSNA College Logo">
+        </div>
+        <div class="title">
+            <h1>PSNA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
+            <h2>CSE CGPA CALCULATOR</h2>
+        </div>
+    </header>
+    
+    <main>
+        <div class="calculator-container">
+            <div class="calculator-box" id="gpa-calculator">
+                <h3>🎓 Calculate GPA</h3>
+                <select id="regulation-select">
+                    <option value="">Select Regulation</option>
+                    <option value="2022">Regulation 2022</option>
+                </select>
+            </div>
+            <div class="calculator-box" id="cgpa-calculator">
+                <h3>📊 Calculate CGPA</h3>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

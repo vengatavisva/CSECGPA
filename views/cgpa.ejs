@@ -20,8 +20,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             justify-content: center;
+            position: relative;
         }
         header {
             display: flex;
@@ -30,10 +31,11 @@
             width: 100%;
             padding: 20px;
             background: url('assets/header-background.jpg') no-repeat center center/cover;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             color: black;
+            z-index: 1000;
         }
         .logo img {
             width: 60px;
@@ -49,6 +51,19 @@
             opacity: 0.8;
             color: black;
         }
+        
+        main {
+            margin-top: 130px;
+            padding: 20px;
+            min-height: calc(100vh - 140px); /* Adjusts height based on header */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto; /* Enables scrolling when content is more */
+            width: 100%;
+            max-width: 600px;
+        }
         .cgpa-container {
             display: flex;
             flex-direction: column;
@@ -59,8 +74,9 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 320px;
-            margin-top: 100px;
+            width: 100%;
+            max-width: 400px;
+            transition: 0.3s;
         }
         select, input {
             width: 100%;
@@ -107,6 +123,34 @@
             opacity: 1 !important;
             transform: scale(1) !important;
         }
+        /* Home button fixed to the bottom */
+        .home-button {
+            position: relative;
+            bottom: 0;
+            left: 10%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff8c00, #ff5e62);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: block;
+            margin-top: auto; /* Pushes it to the bottom dynamically */
+        }
+        footer {
+            width: 100%;
+            margin-top: auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -139,12 +183,17 @@
             <button id="calculate-btn" style="display: none;">Calculate CGPA</button>
             <h2 id="cgpa-result"></h2>
         </div>
+        <a href="/" class="home-button">Home</a>
     </main>
+    <footer>
+        &copy; PSNA College of Engineering and Technology | CSE Department
+    </footer>
+
     <script>
         document.getElementById("next-btn").addEventListener("click", function() {
             var semesterCount = document.getElementById("semester-count").value;
             var gpaInputsDiv = document.getElementById("gpa-inputs");
-            gpaInputsDiv.innerHTML = ""; 
+            gpaInputsDiv.innerHTML = "";
             if (semesterCount === "") {
                 alert("Please select the number of semesters.");
                 return;
@@ -166,6 +215,7 @@
             }
             document.getElementById("calculate-btn").style.display = "block";
         });
+
         document.getElementById("calculate-btn").addEventListener("click", function() {
             var gpaInputs = document.querySelectorAll(".gpa-input");
             var totalGPA = 0, count = 0;
@@ -178,12 +228,9 @@
                 totalGPA += gpaValue;
                 count++;
             }
-            if (count > 0) {
-                var cgpa = (totalGPA / count).toFixed(2);
-                var resultElement = document.getElementById("cgpa-result");
-                resultElement.innerText = `🎉Overall CGPA = ${cgpa}`;
-                resultElement.classList.add("show-result");
-            }
+            var cgpa = (totalGPA / count).toFixed(2);
+            document.getElementById("cgpa-result").innerText = `🎉Overall CGPA = ${cgpa}`;
+            document.getElementById("cgpa-result").classList.add("show-result");
         });
     </script>
 </body>

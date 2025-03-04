@@ -19,9 +19,7 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            justify-content: center;
+            min-height: 100vh;
         }
         header {
             display: flex;
@@ -30,10 +28,11 @@
             width: 100%;
             padding: 20px;
             background: url('/assets/header-background.jpg') no-repeat center center/cover;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             color: black;
+            z-index: 1000;
         }
         .logo img {
             width: 60px;
@@ -49,6 +48,11 @@
             opacity: 0.8;
             color: black;
         }
+        main {
+            margin-top: 100px;
+            padding: 20px;
+            flex: 1;
+        }
         .container {
             background: rgba(225, 237, 246, 0.8);
             padding: 20px;
@@ -56,17 +60,14 @@
             text-align: center;
             width: 90%;
             max-width: 600px;
-            margin-top: 100px;
+            margin: auto;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            min-height: 60vh;
         }
         .semester-box {
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 15px;
-        }
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
         }
         table {
             width: 100%;
@@ -79,15 +80,6 @@
             text-align: center;
             word-wrap: break-word;
             white-space: normal;
-        }
-        th:nth-child(1), td:nth-child(1) {
-            width: 20%;
-        }
-        th:nth-child(2), td:nth-child(2) {
-            width: 50%;
-        }
-        th:nth-child(3), td:nth-child(3) {
-            width: 30%;
         }
         .calculate-button {
             margin-top: 20px;
@@ -110,6 +102,35 @@
             font-weight: bold;
             color: black;
         }
+
+        /* Home Button - Always at Bottom */
+        .home-button-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+        }
+        .home-button {
+            background: linear-gradient(135deg, #ff8c00, #ff5e62);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .home-button:hover {
+            transform: scale(1.05);
+        }
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -131,37 +152,60 @@
             <div class="table-container">
                 <table id="gradeTable">
                     <tr>
-                        <th>Subject Code</th>
+                        <th>Code</th>
                         <th>Subject Name</th>
                         <th>Grade</th>
                     </tr>
-                    <% for(let i = 0; i < 6; i++) { %>
+                    <% subjects.forEach((subject, i) => { %>
                     <tr>
-                        <td>xxxxx</td>
-                        <td>xxxxxxxx</td>
+                        <td><%= subject.subjectCode %></td>
+                        <td><%= subject.subjectName %></td>
                         <td>
-                            <select name="grade<%= i %>" class="grade-select">
+                            <select name="grade<%= i %>" class="grade-select" data-credits="<%= subject.credits %>">
                                 <option value="">Select</option>
                                 <option value="O">O</option>
                                 <option value="A+">A+</option>
                                 <option value="A">A</option>
                                 <option value="B+">B+</option>
                                 <option value="B">B</option>
+                                <option value="C">C</option>
                                 <option value="U">U</option>
                             </select>
                         </td>
                     </tr>
-                    <% } %>
+                    <% }); %>
                 </table>
             </div>
             <button class="calculate-button" onclick="validateAndCalculate()">Calculate</button>
             <div id="result"></div>
         </div>
+
+        <!-- Home Button Below Content -->
+        <div class="home-button-container">
+            <a href="/" class="home-button">Home</a>
+        </div>
     </main>
+
+    <footer>
+        &copy; PSNA College of Engineering and Technology | CSE Department
+    </footer>
 
     <script>
         function validateAndCalculate() {
             let grades = document.querySelectorAll('.grade-select');
+            let totalCredits = 0;
+            let totalGradePoints = 0;
+            
+            const gradePoints = {
+                "O": 10,
+                "A+": 9,
+                "A": 8,
+                "B+": 7,
+                "B": 6,
+                "C": 5,
+                "U": 0 
+            };
+
             let allFilled = true;
 
             grades.forEach(grade => {
@@ -175,10 +219,17 @@
                 return;
             }
 
-            
-            document.getElementById("result").innerText = `Your GPA = 10`;
-        }
+            grades.forEach(grade => {
+                let credit = parseFloat(grade.getAttribute("data-credits"));
+                let gradeValue = grade.value;
 
-            </script>
+                totalCredits += credit;
+                totalGradePoints += gradePoints[gradeValue] * credit;
+            });
+
+            let gpa = totalGradePoints / totalCredits;
+            document.getElementById("result").innerText = `Your GPA = ${gpa.toFixed(2)}`;
+        }
+    </script>
 </body>
 </html>

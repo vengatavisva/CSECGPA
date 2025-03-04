@@ -20,8 +20,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            justify-content: center;
+            min-height: 100vh; /* Ensures content takes up full height */
         }
         header {
             display: flex;
@@ -49,13 +48,23 @@
             opacity: 0.8;
             color: black;
         }
+        main {
+            flex-grow: 1; /* Pushes footer down */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            margin-top: 100px;
+        }
         .calculator-container {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 20px;
-            margin-top: 80px;
+            width: 100%;
         }
         .calculator-box {
             background: rgba(255, 255, 255, 0.2);
@@ -95,6 +104,14 @@
             background-color: #4c99ec;
             transform: scale(1.05);
         }
+        footer {
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            position: relative; /* Ensures it stays below content */
+        }
     </style>
 </head>
 <body>
@@ -104,7 +121,8 @@
         </div>
         <div class="title">
             <h1>PSNA COLLEGE OF ENGINEERING AND TECHNOLOGY</h1>
-            <h2>CSE CGPA CALCULATOR</h2>
+            <h1>COMPUTER SCIENCE DEPARTMENT</h1>
+            <h2>CGPA CALCULATOR</h2>
         </div>
     </header>
     
@@ -125,6 +143,10 @@
             </div>
         </div>
     </main>
+    
+    <footer>
+        &copy; PSNA College of Engineering and Technology | CSE Department
+    </footer>
 
     <script>
         document.getElementById("gpa-form").addEventListener("submit", function(event) {

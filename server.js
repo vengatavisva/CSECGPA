@@ -14,7 +14,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     console.error("Error: Can't connect to Database", err);
 });
 
-// Define Schema
+// Define Schema 2022
 const Regulation2022Schema = new mongoose.Schema({
     semesters: [
         {
@@ -31,16 +31,36 @@ const Regulation2022Schema = new mongoose.Schema({
     ]
 });
 
-// Define Model
+// Define Model 2022
 const R2022 = mongoose.model("R2022", Regulation2022Schema);
+
+// Define Schema 2024
+const Regulation2024Schema = new mongoose.Schema({
+    semesters: [
+        {
+            semesterNumber: { type: String, required: true },
+            subjects: [
+                {
+                    subjectCode: { type: String, required: true },
+                    subjectName: { type: String, required: true },
+                    credits: { type: Number, required: true }
+                }
+            ],
+            totalCredits: { type: Number, required: true }
+        }
+    ]
+});
+
+// Define Model 2024
+const R2024 = mongoose.model("R2024", Regulation2024Schema);
 
 // Upload Data Function
 /*const uploadData = async () => {
     try {
-            const semData = new R2022({
+            const semData = new R2024({
                 semesters: [
                     {
-                        semesterNumber: "8",
+                        semesterNumber: "1",
                         subjects: [
                             {
                                 subjectCode: "CS2891",
@@ -57,8 +77,8 @@ const R2022 = mongoose.model("R2022", Regulation2022Schema);
     } catch (error) {
         console.error("Error uploading data:", error);
     }
-};*/
-
+};
+*/
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -76,8 +96,13 @@ app.get("/cgpa", (req, res) => {
 });
 
 // Render Semester Selection Page
+
 app.get("/R2022", (req, res) => {
     res.render("R2022", { regulation: "R2022" });
+});
+
+app.get("/R2024", (req, res) => {
+    res.render("R2024", { regulation: "R2024" });
 });
 
 // Handle Semester Selection & Redirect to Calculation Page
@@ -89,8 +114,39 @@ app.post("/R2022/semester", (req, res) => {
     res.redirect(`/R2022/${selectedSemester}`);
 });
 
+app.post("/R2024/semester", (req, res) => {
+    const selectedSemester = req.body.Semester;
+    if (!selectedSemester) {
+        return res.redirect("/R2024");
+    }
+    res.redirect(`/R2024/${selectedSemester}`);
+});
+
 // Render Calculation Page with Selected Semester
+
 app.get("/R2022/:semester", async (req, res) => {
+    const semester = req.params.semester;
+
+    try {
+        const data = await R2022.findOne(
+            { "semesters.semesterNumber": semester }, 
+            { "semesters.$": 1 } // Fetch only the selected semester
+        );
+
+        if (!data) {
+            return res.status(404).send("Semester not found");
+        }
+
+        const subjects = data.semesters[0].subjects; // Extract subjects for the semester
+
+        res.render("calculation", { semester, subjects }); // Pass subjects to EJS
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.get("/R2024/:semester", async (req, res) => {
     const semester = req.params.semester;
 
     try {
